@@ -1,12 +1,17 @@
-import {Client} from 'pg.js';
+import {Client} from 'pg';
+
+export interface Todo{
+
+}
 
 export default function createTodoBackend(connectionString:string) {
   async function query(query:string, params:any[]) {
-    const client = new Client(connectionString)
-    await client.connect()
-    const result=await client.query(query,params)
+    const client = new Client(connectionString);
+    await client.connect();
+    const result=await client.query<Todo>(query,params);
+    const rows = result.rows;
     await client.end()
-    return result.rows
+    return rows
   }
 
   return {
@@ -16,12 +21,12 @@ export default function createTodoBackend(connectionString:string) {
 
     get: async function(id:number) {
       const rows =await query('SELECT * FROM todos WHERE id = $1', [id]);
-      return rows && rows[0];
+      return rows[0];
     },
 
     create: async function(title:string, order:number) {
       const rows = await query('INSERT INTO todos ("title", "order", "completed") VALUES ($1, $2, false) RETURNING *', [title, order]);
-      return rows && rows[0];
+      return rows[0];
     },
 
     update: async function(id:string, properties:Partial<{title:string,order:number,completed:boolean}>) {
@@ -47,12 +52,12 @@ export default function createTodoBackend(connectionString:string) {
       ];
 
       const rows = await query(updateQuery.join(' '), values.concat([id]));
-      return rows && rows[0]
+      return rows[0]
     },
 
     delete: async function(id:number) {
       const rows = await query('DELETE FROM todos WHERE id = $1 RETURNING *', [id]);
-      return rows && rows[0];
+      return rows[0];
     },
 
     clear: async function() {
