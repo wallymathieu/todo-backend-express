@@ -1,4 +1,4 @@
-import {Client} from 'pg';
+import {Client} from 'pg.js';
 
 export default function createTodoBackend(connectionString:string) {
   async function query(query:string, params:any[]) {

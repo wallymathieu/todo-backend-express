@@ -1,7 +1,7 @@
-import Express from 'express';
+import express from 'express';
 import bodyParser from 'body-parser';
 import backend from './backend';
-const app = Express();
+const app = express();
 
 // ----- Parse JSON requests
 
@@ -20,7 +20,7 @@ app.use(function(_req, res, next) {
 
 var todos = backend(process.env.DATABASE_URL as string);
 
-function createTodo(req:Express.Request, data:any) {
+function createTodo(req:express.Request, data:any) {
   return {
     title: data.title,
     order: data.order,
@@ -29,7 +29,7 @@ function createTodo(req:Express.Request, data:any) {
   };
 }
 
-function getCreateTodo(req:Express.Request) {
+function getCreateTodo(req:express.Request) {
   return function(data:any) {
     return createTodo(req, data);
   };
@@ -65,4 +65,4 @@ app.delete('/:id', async function(req, res) {
   res.status(202);
 });
 
-app.listen(Number(process.env.PORT || 4000));
+app.listen(Number(process.env.PORT || 5000));
