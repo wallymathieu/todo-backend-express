@@ -1,4 +1,4 @@
-exports.up = function(db, callback) {
+export function up(db:any, callback:any) {
   var schema = {
     id: {
       type: 'int',
@@ -12,6 +12,6 @@ exports.up = function(db, callback) {
   db.createTable('todos', schema, callback);
 };
 
-exports.down = function(db, callback) {
+export function down(db:any, callback:any) {
   db.dropTable('todos', callback);
 };

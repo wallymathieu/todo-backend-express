@@ -1,7 +1,7 @@
-exports.up = function(db, callback) {
+export function up(db:any, callback:any) {
   db.addColumn('todos', 'order', { type: 'int' }, callback);
 };
 
-exports.down = function(db, callback) {
+export function down(db:any, callback:any) {
   db.removeColumn('todos', 'order', callback);
 };

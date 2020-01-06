@@ -2,7 +2,11 @@
   "name": "todo-backend-express",
   "version": "0.1.0",
   "description": "a Node.js/Express implementation of the Todo-Backend API spec",
-  "main": "server.js",
+  "main": "dist/server.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/dtao/todo-backend-express"
@@ -11,6 +15,11 @@
     "todo-backend",
     "api"
   ],
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "db-migrate": "cd dist; db-migrate "
+  },
   "author": "Dan Tao <daniel.tao@gmail.com>",
   "license": "MIT",
   "bugs": {
@@ -22,9 +31,15 @@
   },
   "dependencies": {
     "body-parser": "^1.4.3",
-    "db-migrate": "^0.6.4",
+    "db-migrate": "^0.11.6",
     "express": "^4.5.1",
     "pg": "^3.4.0",
-    "pg.js": "^3.3.0"
+    "tslib": "^1.10.0",
+    "typescript": "^3.7.4"
+  },
+  "devDependencies": {
+    "@types/pg": "^7.14.1",
+    "@types/body-parser": "^1.17.1",
+    "@types/express": "^4.17.2"
   }
 }
