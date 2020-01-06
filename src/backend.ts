@@ -1,14 +1,17 @@
 import {Client} from 'pg';
 
-export interface Todo{
-
+export interface DbTodo{
+  title:string;
+  order:number;
+  completed:boolean;
+  id:number;
 }
 
 export default function createTodoBackend(connectionString:string) {
   async function query(query:string, params:any[]) {
     const client = new Client(connectionString);
     await client.connect();
-    const result=await client.query<Todo>(query,params);
+    const result=await client.query<DbTodo>(query,params);
     const rows = result.rows;
     await client.end()
     return rows
@@ -29,7 +32,7 @@ export default function createTodoBackend(connectionString:string) {
       return rows[0];
     },
 
-    update: async function(id:string, properties:Partial<{title:string,order:number,completed:boolean}>) {
+    update: async function(id:string, properties:Partial<DbTodo>) {
       var assigns = [], values = [];
       if ('title' in properties) {
         assigns.push('"title"=$' + (assigns.length + 1));

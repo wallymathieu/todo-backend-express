@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import backend from './backend';
+import backend, { DbTodo } from './backend';
 const app = express();
 // ----- Parse JSON requests
 
@@ -19,7 +19,7 @@ app.use(function(_req, res, next) {
 
 var todos = backend(process.env.DATABASE_URL as string);
 
-function createTodo(_req:express.Request, data:any) {
+function createTodo(_req:express.Request, data:DbTodo) {
   if (!data){ return undefined; }
   return {
     text: data.title,
@@ -29,7 +29,7 @@ function createTodo(_req:express.Request, data:any) {
 }
 
 function getCreateTodo(req:express.Request) {
-  return function(data:any) {
+  return function(data:DbTodo) {
     return createTodo(req, data);
   };
 }
