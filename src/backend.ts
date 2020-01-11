@@ -19,7 +19,7 @@ export default function createTodoBackend(connectionString:string) {
 
   return {
     all: function() {
-      return query('SELECT * FROM todos', []);
+      return query('SELECT * FROM todos ORDER by "order"', []);
     },
 
     get: async function(id:number) {
