@@ -64,7 +64,14 @@ app.post('/', return500OnError(async function(req, res) {
 }));
 
 app.patch('/:id', return500OnError(async function(req, res) {
-  const todo=await todos.update(req.params.id, {...req.body,title:req.body.text});
+  const call:Partial<DbTodo>={};
+  if ('text' in req.body){
+    call.title=req.body.text
+  }
+  if ('completed' in req.body){
+    call.completed=req.body.completed
+  }
+  const todo=await todos.update(req.params.id, call);
   res.send(createTodo(req, todo));
 }));
 
